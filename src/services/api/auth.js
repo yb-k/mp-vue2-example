@@ -5,7 +5,7 @@ class AuthService extends BaseApiService {
     super('/auth');
   }
   regist(name, email, password) {
-    return this.post('/register', { name, email, password });
+    return this.send('/register', { name, email, password });
   }
   /**
    * login
@@ -36,7 +36,7 @@ class AuthService extends BaseApiService {
     return this.post('/logout');
   }
   getSession() {
-    return this.get('/session');
+    return this.post('/get-session');
   }
 }
 

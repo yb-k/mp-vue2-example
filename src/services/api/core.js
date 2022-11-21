@@ -1,19 +1,16 @@
-import instnace from '@/common/axios';
+import _merge from 'lodash/merge';
+import { SERVER_NAME } from '@/common/config';
+import httpSend from '@/common/httpSend';
+
 export default class BaseApiService {
-  constructor(resource) {
-    this.instance = instnace;
-    this.resource = resource;
+  constructor(resource, options = {}) {
+    this.server = SERVER_NAME;
+    this.resource = `/mp${resource}`;
+    this.options = options;
+    this.send = httpSend;
   }
-  get(path = '', params = {}, config = {}) {
-    return this.instance.get(`${this.resource}${path}`, { params, ...config });
-  }
-  post(path = '', params = {}, config = {}) {
-    return this.instance.post(`${this.resource}${path}`, params, config);
-  }
-  patch(path = '', params = {}, config = {}) {
-    return this.instance.patch(`${this.resource}${path}`, params, config);
-  }
-  delete(path = '', params = {}, config = {}) {
-    return this.instance.delete(`${this.resource}${path}`, params, config);
+  post(path, data, options = {}) {
+    const _options = _merge(this.options, options);
+    return this.send(`${this.resource}${path}`, data, _options);
   }
 }

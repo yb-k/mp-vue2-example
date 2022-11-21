@@ -40,14 +40,14 @@ export default {
   },
   actions: {
     async [ACTIONS.BOARD.APPEND](context, payload) {
-      const data = await boardService.get('/', payload);
+      const data = await boardService.list(payload);
       context.commit(MUTATIONS.BOARD.APPEND, data.contents);
       return data;
     },
     async [ACTIONS.BOARD.DETAIL](context, payload) {
       // 상세 정보에 대한 정보를 초기화
       context.commit(MUTATIONS.BOARD.DETAIL, INIT_DETAIL_DATA());
-      const data = await boardService.get(`/${payload}`);
+      const data = await boardService.detail(payload);
       context.commit(MUTATIONS.BOARD.DETAIL, data);
       return data;
     },

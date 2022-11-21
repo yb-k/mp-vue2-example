@@ -17,8 +17,9 @@
   </v-navigation-drawer>
 </template>
 <script>
-import { ACTIONS, GETTERS, VIEW_NAVI } from '@/common/constants';
+import { ACTIONS, GETTERS, STORAGE_KEYS, VIEW_NAVI } from '@/common/constants';
 import { mapActions, mapGetters } from 'vuex';
+import { STORAGE_DATA } from '@/native/data';
 export default {
   name: 'app-navigator',
   data() {
@@ -80,6 +81,7 @@ export default {
       if (path === '/logout') {
         await this.logout();
         await this.$alert('로그아웃되었습니다.');
+        this.$nativeScript(STORAGE_DATA, STORAGE_KEYS.LOGIN_INFO, '');
         this.$router.push({ name: VIEW_NAVI.HOME });
       } else {
         this.$router.push({ name: path });

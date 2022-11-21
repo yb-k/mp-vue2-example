@@ -12,19 +12,19 @@ export default {
   },
   actions: {
     async [ACTIONS.TODO.LIST](context) {
-      const todos = await todoService.get();
+      const todos = await todoService.list();
       context.commit(MUTATIONS.TODO.LIST, todos);
     },
     async [ACTIONS.TODO.REGIST](context, payload) {
-      await todoService.post('', payload);
+      await todoService.regist(payload);
       await context.dispatch(ACTIONS.TODO.LIST);
     },
     async [ACTIONS.TODO.DELETE](context, payload) {
-      await todoService.delete(`/${payload}`);
+      await todoService.delete(payload);
       await context.dispatch(ACTIONS.TODO.LIST);
     },
     async [ACTIONS.TODO.DONE](context, payload) {
-      await todoService.patch(`/${payload}`, { completed: true });
+      await todoService.update({ id: payload, completed: true });
       await context.dispatch(ACTIONS.TODO.LIST);
     },
   },

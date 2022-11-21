@@ -48,7 +48,15 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import _cloneDeep from 'lodash/cloneDeep';
-import { ACTIONS, ENUM_LAYOUT, GETTERS, MUTATIONS, VIEW_NAVI } from '@/common/constants';
+import {
+  ACTIONS,
+  ENUM_LAYOUT,
+  GETTERS,
+  MUTATIONS,
+  STORAGE_KEYS,
+  VIEW_NAVI,
+} from '@/common/constants';
+import { STORAGE_DATA } from '@/native/data';
 
 const INIT_STATE = () => ({
   email: '',
@@ -85,6 +93,14 @@ export default {
       const params = _cloneDeep(this.state);
       try {
         await this.login(params);
+        if (this.handleSave) {
+          this.$nativeScript(STORAGE_DATA, STORAGE_KEYS.LOGIN_INFO, {
+            email: params.email,
+            password: params.password,
+          });
+        } else {
+          this.$nativeScript(STORAGE_DATA, STORAGE_KEYS.LOGIN_INFO, '');
+        }
       } catch (err) {
         console.error(err);
       }

@@ -14,7 +14,7 @@
 import { fileService } from '@/services/api';
 import { API_URL, RUNTIME } from '@/common/config';
 import { IMAGE_PICKER } from '@/native/picker';
-import { UPLOAD_IMAGE } from '@/native/upload';
+import { UPLOAD_FILE } from '@/native/net';
 import { APP_ENV, OS_ENV } from '@/common/constants';
 export default {
   name: 'app-file-upload-btn',
@@ -33,9 +33,7 @@ export default {
     async onClick() {
       if (RUNTIME.TYPE === APP_ENV.APP) {
         const { path: imagePath } = await this.$nativeScript(IMAGE_PICKER);
-        const { path } = await this.$nativeScript(UPLOAD_IMAGE, '/file/upload', {
-          imagePath,
-        });
+        const { path } = await this.$nativeScript(UPLOAD_FILE, '/file/upload', imagePath);
         this.$emit('input', path);
       } else {
         this.$refs.fileInput.click();

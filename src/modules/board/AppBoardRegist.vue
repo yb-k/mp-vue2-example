@@ -86,14 +86,15 @@ export default {
     async onSubmit() {
       let result;
       const params = {
+        id: this.id,
         title: this.state.title,
         content: this.state.content,
         thumnail: this.state.thumnail,
       };
       if (this.editable) {
-        result = await boardService.patch(`/${this.id}`, params);
+        result = await boardService.update(params);
       } else {
-        result = await boardService.post('', params);
+        result = await boardService.regist(params);
       }
       await this.$alert('저장되었습니다.');
       this.$router.replace({ name: VIEW_NAVI.BOARD_DETAIL, params: { id: result.id } });

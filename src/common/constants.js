@@ -92,12 +92,12 @@ export const VIEW_NAVI = {
  * App Constans Storage Keys
  */
 export const STORAGE_KEYS = {
-  ACCESS_TOKEN: 'accessToken',
-  REFRESH_TOKEN: 'refreshToken',
+  LOGIN_INFO: '_loginInfo',
   IS_SAVE: 'saveAuth',
 };
 
 export const STATUS_CODE = {
+  SUCC: 200,
   UNAUTHORIZED: 401,
 };
 
