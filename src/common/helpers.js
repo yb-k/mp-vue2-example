@@ -7,17 +7,4 @@
  * 예) 외부 서비스 연동을 위한 함수
  */
 
-import PullToRefresh from 'pulltorefreshjs';
-
-export function bindPullToRefresh(el = 'body', callback = () => {}) {
-  PullToRefresh.init({
-    mainElement: el,
-    onRefresh(done) {
-      callback(done);
-    },
-  });
-}
-
-export function unBindPullToRefresh() {
-  PullToRefresh.destroyAll();
-}
+// TODO: pulltorefresh

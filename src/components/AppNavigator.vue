@@ -3,8 +3,8 @@
     <v-list dense>
       <v-list-item
         :key="`menu-${menu.label}`"
-        v-for="menu in filteredMenus"
-        @click="move(menu.path)"
+        v-for="menu in menus"
+        @click="$router.push({ name: menu.path })"
       >
         <v-list-item-action>
           <v-icon>{{ menu.icon }}</v-icon>
@@ -17,9 +17,6 @@
   </v-navigation-drawer>
 </template>
 <script>
-import { ACTIONS, GETTERS, STORAGE_KEYS, VIEW_NAVI } from '@/common/constants';
-import { mapActions, mapGetters } from 'vuex';
-import { STORAGE_DATA } from '@/native/data';
 export default {
   name: 'app-navigator',
   data() {
@@ -28,31 +25,31 @@ export default {
       menus: [
         {
           label: 'Home',
-          path: VIEW_NAVI.HOME,
+          path: 'home',
           icon: 'mdi-home',
           role: 'all',
         },
         {
           label: 'Todos',
-          path: VIEW_NAVI.TODOS,
+          path: 'todos',
           icon: 'mdi-run',
           role: 'all',
         },
         {
           label: 'Login',
-          path: VIEW_NAVI.LOGIN,
+          path: 'login',
           icon: 'mdi-login',
           role: 'anonymous',
         },
         {
           label: 'Profile',
-          path: VIEW_NAVI.USER_PROFILE,
+          path: 'profile',
           icon: 'mdi-account',
           role: 'user',
         },
         {
           label: 'Logout',
-          path: '/logout',
+          path: 'logout',
           icon: 'mdi-logout',
           role: 'user',
         },
@@ -63,30 +60,6 @@ export default {
     this.$eventBus.$on('toggleSideBar', () => {
       this.showMenu = !this.showMenu;
     });
-  },
-  computed: {
-    ...mapGetters({
-      isAnonymous: GETTERS.AUTH.IS_ANONYMOUS,
-    }),
-    filteredMenus() {
-      return this.menus.filter(({ role }) => {
-        const roles = ['all', this.isAnonymous ? 'anonymous' : 'user'];
-        return roles.includes(role);
-      });
-    },
-  },
-  methods: {
-    ...mapActions({ logout: ACTIONS.AUTH.LOGOUT }),
-    async move(path) {
-      if (path === '/logout') {
-        await this.logout();
-        await this.$alert('로그아웃되었습니다.');
-        this.$nativeScript(STORAGE_DATA, STORAGE_KEYS.LOGIN_INFO, '');
-        this.$router.push({ name: VIEW_NAVI.HOME });
-      } else {
-        this.$router.push({ name: path });
-      }
-    },
   },
   beforeDestroy() {
     this.$eventBus.$off('toggleSideBar');

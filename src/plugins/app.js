@@ -1,4 +1,3 @@
-import { executor } from '@/native';
 import dayjs from 'dayjs';
 
 export default {
@@ -66,10 +65,6 @@ export default {
 
     Vue.prototype.$log = (...args) => {
       console.log(...args);
-    };
-
-    Vue.prototype.$nativeScript = (...args) => {
-      return executor(...args);
     };
   },
 };
